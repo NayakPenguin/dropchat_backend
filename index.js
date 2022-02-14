@@ -5,6 +5,19 @@ const port = process.env.PORT || 8000;
 const mongoose = require('mongoose');
 
 app.use(express.json());
+
+var whitelist = ['https://dropchats.web.app/','http://localhost:3000/']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+
 app.use(cors());
 
 const roomSchema = new mongoose.Schema({
