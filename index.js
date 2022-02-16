@@ -130,10 +130,10 @@ app.post('/user/login/room', async (req, res) => {
 
   if(room){
     if(room.password != req.body.password){
-      res.send("0");
+      res.status(200).json("0");
     }else res.status(200).json(room);
   }
-  else res.send("-1");
+  else res.status(200).json("-1");
   // -1 ---> when room not found
   // 0 ----> password doesnot match
   // object ----> room and password match! R A R E   S E L E N A    G O M E Z
