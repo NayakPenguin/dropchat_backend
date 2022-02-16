@@ -110,7 +110,8 @@ app.post('/all/rooms/:roomID/respond', (req, res) => {
 
 app.get('/all/rooms/:roomID/view-responses', async (req, res) => {
   // const response = responses.filter(e => e.roomID == req.params.roomID);
-  const response = await responses.filter({"roomID":req.params.roomID});
+  // const response = await responses.filter({"roomID": req.params.roomID});
+  const response = await responses.find({"roomID": req.params.roomID});
     
 
   if(response) {
@@ -121,10 +122,7 @@ app.get('/all/rooms/:roomID/view-responses', async (req, res) => {
 
 app.post('/user/login/room', async (req, res) => {
   // const room = rooms.find(e => e.roomID == req.body.roomID);
-  const room = await rooms.find({"roomID":req.body.roomID},(err,result)=>{
-    console.log(result);
-    return result;
-  })
+  const [room] = await rooms.find({"roomID": req.body.roomID});
 
   console.log(room);
 
