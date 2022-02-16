@@ -4,21 +4,6 @@ const app = express();
 const port = process.env.PORT || 8000;
 const mongoose = require('mongoose');
 
-app.use(express.json());
-
-var whitelist = ['https://dropchats.web.app/','http://localhost:3000/']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
-
-
-app.use(cors());
 
 const roomSchema = new mongoose.Schema({
   roomCount: Number,
@@ -45,6 +30,10 @@ const apiRoutes = [
     login : "/user/login/room",
   }
 ]
+
+
+app.use(express.json());
+app.use(cors());
 
 
 var rooms = mongoose.model('rooms', roomSchema);
@@ -121,10 +110,8 @@ app.post('/all/rooms/:roomID/respond', (req, res) => {
 
 app.get('/all/rooms/:roomID/view-responses', async (req, res) => {
   // const response = responses.filter(e => e.roomID == req.params.roomID);
-  const response = await responses.filter({"roomID":req.params.roomID},(err,result)=>{
-    console.log(result);
-    return result;
-  });
+  const response = await responses.filter({"roomID":req.params.roomID});
+    
 
   if(response) {
     res.send(response);
@@ -134,7 +121,7 @@ app.get('/all/rooms/:roomID/view-responses', async (req, res) => {
 
 app.post('/user/login/room', async (req, res) => {
   // const room = rooms.find(e => e.roomID == req.body.roomID);
-  const room = await rooms.find({"roomID":req.params.roomID},(err,result)=>{
+  const room = await rooms.find({"roomID":req.body.roomID},(err,result)=>{
     console.log(result);
     return result;
   })
@@ -144,7 +131,7 @@ app.post('/user/login/room', async (req, res) => {
   if(room){
     if(room.password != req.body.password){
       res.send("0");
-    }else res.send(room);
+    }else res.status(200).json(room);
   }
   else res.send("-1");
   // -1 ---> when room not found
