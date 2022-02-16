@@ -47,22 +47,25 @@ app.get('/', (req, res) => {
     res.send(apiRoutes);
 });
 
-app.get('/all/rooms', (req, res) => {
+app.get('/all/rooms', async (req, res) => {
   // res.send(rooms);
   // rooms.find({},(err,result)=>{
   //   res.status(200).json(result);
   //   console.log(result);
   // });
+
   rooms.find({},(err,result)=>{
     res.status(200).json(result);
     console.log(result);
   });
+
 });
 
-app.post('/create/room/', (req, res) => {
+app.post('/create/room/', async (req, res) => {
+    const totalRooms = await rooms.find({});
     const room = new rooms ({
         // roomCount : rooms.length + 1,
-        roomCount : 69,
+        roomCount : (totalRooms.length + 1),
         roomID : req.body.roomID,
         // token
         owner: req.body.owner,
@@ -114,10 +117,11 @@ app.get('/all/rooms/:roomID/view-responses', async (req, res) => {
   const response = await responses.find({"roomID": req.params.roomID});
     
 
-  if(response) {
+  if(response.length) {
     res.send(response);
   }
   else res.send("Sorry the room responses couldn't be found! Kindly check the spelling.");
+  // change this ... agar koi response nhi hai woo bhi condition rahega na!
 });
 
 app.post('/user/login/room', async (req, res) => {
