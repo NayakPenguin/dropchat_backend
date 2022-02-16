@@ -41,7 +41,7 @@ var responses = mongoose.model('responses', respSchema);
 // const rooms = [];
 // const responses = [];
 
-const CONNECTION_URL = 'mongodb+srv://snape:snape@cluster0.1t67b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const CONNECTION_URL = '---------------';
 
 app.get('/', (req, res) => {
     res.send(apiRoutes);
