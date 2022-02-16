@@ -95,7 +95,8 @@ app.get('/all/rooms/:roomID', async (req, res) =>  {
 
 app.post('/all/rooms/:roomID/respond', (req, res) => {
   const response = new responses ({
-      responseCount : responses.length + 1,
+      // responseCount : responses.length + 1,
+      responseCount : 69,
       roomID : req.params.roomID,
       // token
       responseMsg: req.body.response,
@@ -120,7 +121,8 @@ app.get('/all/rooms/:roomID/view-responses', async (req, res) => {
   if(response.length) {
     res.send(response);
   }
-  else res.send("Sorry the room responses couldn't be found! Kindly check the spelling.");
+  // else res.send("Sorry the room responses couldn't be found! Kindly check the spelling.");
+  else res.send("No room responses!");
   // change this ... agar koi response nhi hai woo bhi condition rahega na!
 });
 
