@@ -56,7 +56,7 @@ app.get('/all/rooms', async (req, res) => {
 
   rooms.find({},(err,result)=>{
     res.status(200).json(result);
-    console.log(result);
+    // console.log(result);
   });
 
 });
@@ -93,10 +93,11 @@ app.get('/all/rooms/:roomID', async (req, res) =>  {
   else res.status(200).json("Sorry the room couldn't be found! Kindly check the spelling.");
 });
 
-app.post('/all/rooms/:roomID/respond', (req, res) => {
+app.post('/all/rooms/:roomID/respond', async (req, res) => {
+  var totalResponses = await responses.find({});
   const response = new responses ({
       // responseCount : responses.length + 1,
-      responseCount : 69,
+      responseCount : totalResponses.length + 1,
       roomID : req.params.roomID,
       // token
       responseMsg: req.body.response,
@@ -130,7 +131,7 @@ app.post('/user/login/room', async (req, res) => {
   // const room = rooms.find(e => e.roomID == req.body.roomID);
   const [room] = await rooms.find({"roomID": req.body.roomID});
 
-  console.log(room);
+  // console.log(room);
 
   if(room){
     if(room.password != req.body.password){
